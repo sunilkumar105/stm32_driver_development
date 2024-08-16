@@ -832,7 +832,7 @@ LOAD C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_rnglists
                 0x00000013       0x19 ./Startup/startup_stm32f767zitx.o
 
-.debug_macro    0x00000000     0x1091
+.debug_macro    0x00000000     0x1283
  .debug_macro   0x00000000       0x6c ./Src/main.o
  .debug_macro   0x0000006c      0xad2 ./Src/main.o
  .debug_macro   0x00000b3e       0x22 ./Src/main.o
@@ -841,16 +841,16 @@ LOAD C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_macro   0x00000c3f      0x103 ./Src/main.o
  .debug_macro   0x00000d42       0x6a ./Src/main.o
  .debug_macro   0x00000dac      0x1df ./Src/main.o
- .debug_macro   0x00000f8b      0x106 ./Src/main.o
+ .debug_macro   0x00000f8b      0x2f8 ./Src/main.o
 
 .debug_line     0x00000000      0x4df
  .debug_line    0x00000000      0x464 ./Src/main.o
  .debug_line    0x00000464       0x7b ./Startup/startup_stm32f767zitx.o
 
-.debug_str      0x00000000     0x4213
- .debug_str     0x00000000     0x41d4 ./Src/main.o
-                               0x432f (size before relaxing)
- .debug_str     0x000041d4       0x3f ./Startup/startup_stm32f767zitx.o
+.debug_str      0x00000000     0x4dc4
+ .debug_str     0x00000000     0x4d85 ./Src/main.o
+                               0x4ee0 (size before relaxing)
+ .debug_str     0x00004d85       0x3f ./Startup/startup_stm32f767zitx.o
                                  0x82 (size before relaxing)
 
 .comment        0x00000000       0x43
