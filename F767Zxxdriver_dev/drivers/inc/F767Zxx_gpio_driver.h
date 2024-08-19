@@ -26,6 +26,7 @@
 #define GPIO_PIN_NO_12 12
 #define GPIO_PIN_NO_13 13
 #define GPIO_PIN_NO_14 14
+#define GPIO_PIN_NO_15 15
 
 //@ALL_GPIO_OUTPUT_MODES
 // GPIO POSSIBLE OUTPUT MODES
@@ -67,6 +68,8 @@ typedef struct {
 	GPIO_RegDef_t *pGPIOx; //This holds the address of the GPIO port to which the pin belongs
 	GPIO_PinConfig_t GPIO_PinConfig;
 } GPIO_Handle_t;
+
+
 
 /************************* API SUPPORTED BY THE DRIVER ****************************/
 /*Peripheral Clock control*/

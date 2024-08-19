@@ -121,14 +121,140 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t ENorDI) {
  *
  */
 
-
 void GPIO_Init(GPIO_Handle_t *pGPIOHandle) {
+	uint32_t temp = 0; // temporary register
+
+	//1. CONFIGURE MODE OF GPIO PIN
+
+	if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_ANALOG) {
+		//Means the mode is non-interrupt mode
+		//Mode will be actual pin-mode positioned at the location with two bit
+		//we can left shift the temporary register by the mode by the pos = pinNumber x 2
+		temp = pGPIOHandle->GPIO_PinConfig.GPIO_PinMode
+				<< (2 * pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+		//clearing reg
+		pGPIOHandle->pGPIOx->MODER &= ~(0b11
+				<< 2 * pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+		//writing reg
+		pGPIOHandle->pGPIOx->MODER |= temp;
+	} else {
+		//Means the mode is interrupt, will code it later
+	}
+
+	temp = 0;
+	//2. CONFIGURE THE SPEED
+	temp = pGPIOHandle->GPIO_PinConfig.GPIO_PinSpeed
+			<< (2 * pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+	//clearing reg
+	pGPIOHandle->pGPIOx->OSPEEDR &= ~(0b11
+			<< 2 * pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+	//setting reg
+	pGPIOHandle->pGPIOx->OSPEEDR |= temp;
+
+	temp = 0;
+	//3. CONFIGURE THE PUPD REGISTERS
+	temp = pGPIOHandle->GPIO_PinConfig.GPIO_PinPuPdControl
+			<< (2 * pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+	//clearing reg
+	pGPIOHandle->pGPIOx->PUPDR &= ~(0b11
+			<< 2 * pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+	//setting reg
+	pGPIOHandle->pGPIOx->PUPDR |= temp;
+
+	temp = 0;
+	//4. CONFIGURE THE OUTPUT TYPE
+	temp = pGPIOHandle->GPIO_PinConfig.GPIO_PinOPType
+			<< pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber;
+	//clearing reg
+	pGPIOHandle->pGPIOx->OTYPER &= ~(0b1
+			<< pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+	//setting reg
+	pGPIOHandle->pGPIOx->OTYPER |= temp;
+
+	temp = 0;
+	//5. CONFIGURE THE ALTERNATE FUNCTIONALITY
+	if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_ALTFN) { //If the mode is alternate function, then only configure the alternate function
+
+		uint8_t AFR_REG, POS;
+		AFR_REG = pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber / 8;
+		POS = pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber % 8;
+		temp = pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode << (4 * POS);
+
+		//clearing reg
+		pGPIOHandle->pGPIOx->AFR[AFR_REG] &= ~(0b1111 << 4 * POS);
+		//setting reg
+		pGPIOHandle->pGPIOx->AFR[AFR_REG] |= temp;
+
+	}
 
 }
-void GPIO_DeInit(GPIO_RegDef_t *pGPIOx); //It just need the base address of the register
+/**********************************************
+ * @fn       				- GPIO_DeInit
+ *
+ * @brief      				- Deinit the GPIO REGISTER, USE RCC RESET REGISTER
+ * @param[0]  				-
+ * @param[1}				-
+ * @param[2]      			-
+ *
+ * @return 					-
+ *
+ * @NOte					-
+ *
+ */
+void GPIO_DeInit(GPIO_RegDef_t *pGPIOx) {
+	if (pGPIOx == GPIOA) {
+		GPIOA_REG_RESET();
+	}
+	if (pGPIOx == GPIOB) {
+		GPIOB_REG_RESET();
+	}
+	if (pGPIOx == GPIOC) {
+		GPIOC_REG_RESET();
+	}
+	if (pGPIOx == GPIOD) {
+		GPIOD_REG_RESET();
+	}
+	if (pGPIOx == GPIOE) {
+		GPIOE_REG_RESET();
+	}
+	if (pGPIOx == GPIOF) {
+		GPIOF_REG_RESET();
+	}
+	if (pGPIOx == GPIOG) {
+		GPIOG_REG_RESET();
+	}
+	if (pGPIOx == GPIOH) {
+		GPIOH_REG_RESET();
+	}
+	if (pGPIOx == GPIOI) {
+		GPIOI_REG_RESET();
+	}
+	if (pGPIOx == GPIOJ) {
+		GPIOJ_REG_RESET();
+	}
+	if (pGPIOx == GPIOK) {
+		GPIOK_REG_RESET();
+	}
+}
 
-/*Data Read and Write*/
-uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber);
+/*******************************Data Read and Write************************************/
+/**********************************************
+ * @fn       				- GPIO_ReadFromInputPin
+ *
+ * @brief      				- Read GPIO in state
+ * @param[0]  				-
+ * @param[1}				-
+ * @param[2]      			-
+ *
+ * @return 					-
+ *
+ * @NOte					-
+ *
+ */
+uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber) {
+
+}
+
 uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx);
 void GPIO_WritwToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber,
 		uint8_t value);

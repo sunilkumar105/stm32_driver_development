@@ -113,8 +113,6 @@ typedef struct {
 #define GPIOJ (GPIO_RegDef_t*)GPIOJ_BASEADDR
 #define GPIOK (GPIO_RegDef_t*)GPIOK_BASEADDR
 
-#define RCC   (RCC_RegDef_t*)RCC_BASEADDR
-
 //RCC register structure to control each register of it
 typedef struct {
 	__vo uint32_t CR; 					//RCC clock control register
@@ -155,6 +153,8 @@ typedef struct {
 	__vo uint32_t DCKCFGR2; 	// RCC dedicated clocks configuration register 2
 
 } RCC_RegDef_t;
+
+#define RCC   ((RCC_RegDef_t*)RCC_BASEADDR)
 
 /*Clock Enable MACRO*/
 
@@ -239,6 +239,21 @@ typedef struct {
 
 /*************************** SYS-CFG peripheral CLK ENABLE ****************************/
 #define SYSCFG_PCLK_DI() (RCC->APB2ENR &= ~(1<<14))
+
+/*************************** MACRO TO RESET GPIO PERIPHERALS ****************************/
+
+//first set and then reset
+#define GPIOA_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 0)); (RCC->AHB1RSTR &= ~(1 << 0));} while(0)
+#define GPIOB_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 1)); (RCC->AHB1RSTR &= ~(1 << 1));} while(0)
+#define GPIOC_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 2)); (RCC->AHB1RSTR &= ~(1 << 2));} while(0)
+#define GPIOD_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 3)); (RCC->AHB1RSTR &= ~(1 << 3));} while(0)
+#define GPIOE_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 4)); (RCC->AHB1RSTR &= ~(1 << 4));} while(0)
+#define GPIOF_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 5)); (RCC->AHB1RSTR &= ~(1 << 5));} while(0)
+#define GPIOG_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 6)); (RCC->AHB1RSTR &= ~(1 << 6));} while(0)
+#define GPIOH_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 7)); (RCC->AHB1RSTR &= ~(1 << 7));} while(0)
+#define GPIOI_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 8)); (RCC->AHB1RSTR &= ~(1 << 8));} while(0)
+#define GPIOJ_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 9)); (RCC->AHB1RSTR &= ~(1 << 9));} while(0)
+#define GPIOK_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 10)); (RCC->AHB1RSTR &= ~(1 << 10));} while(0)
 
 //Some Generic Macro
 #define ENABLE 1
