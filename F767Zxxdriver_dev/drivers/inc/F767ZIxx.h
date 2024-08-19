@@ -8,6 +8,9 @@
 #ifndef INC_F767ZIXX_H_
 #define INC_F767ZIXX_H_
 
+#include <stdio.h>
+#include <stdint.h>
+
 #define __vo volatile
 
 //All Memory Address
@@ -236,5 +239,13 @@ typedef struct {
 
 /*************************** SYS-CFG peripheral CLK ENABLE ****************************/
 #define SYSCFG_PCLK_DI() (RCC->APB2ENR &= ~(1<<14))
+
+//Some Generic Macro
+#define ENABLE 1
+#define DISABLE 0
+#define SET ENABLE
+#define RESET DISABLE
+#define GPIO_PIN_SET SET
+#define GPIO_PIN_RESET RESET
 
 #endif /* INC_F767ZIXX_H_ */

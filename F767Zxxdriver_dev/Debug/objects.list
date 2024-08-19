@@ -2,3 +2,4 @@
 "./Src/syscalls.o"
 "./Src/sysmem.o"
 "./Startup/startup_stm32f767zitx.o"
+"./drivers/src/F767Zxx_gpio_driver.o"
