@@ -246,19 +246,66 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx) {
  * @param[1}				-
  * @param[2]      			-
  *
- * @return 					-
+ * @return 					- 0 or 1
  *
  * @NOte					-
  *
  */
 uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber) {
-uint8_t
+	uint8_t value = 0;
+	value = (uint8_t) ((pGPIOx->IDR >> pinNumber) & 0x00000001);
+	return value;
+}
+/**********************************************
+ * @fn       				- GPIO_ReadFromInputPort
+ *
+ * @brief      				- Read complete GPIO PORT state
+ * @param[0]  				-
+ * @param[1}				-
+ * @param[2]      			-
+ *
+ * @return 					- uint16_t IDR STATUS OF TEH PORT
+ *
+ * @NOte					-
+ *
+ */
+uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx) {
+	uint16_t value = 0;
+
+	//It should be implemented like this, as the register is 32 bit, but MSB 16 bits are fixed.
+	//value = (uint16_t) ((pGPIOx->IDR >> 16) & 0x0000FFFF);
+
+	//according to the course, he is reading the value into 16 bit register from 32 bit and returning it as it is
+	value = (uint16_t) (pGPIOx->IDR);
+
+	return value;
+}
+/**********************************************
+ * @fn       				- GPIO_WriteToOutputPin
+ *
+ * @brief      				- WRITE TO A SPECIFIC PIN OF THE GPIO
+ * @param[0]  				- GPIO_RegDef_t*GPIO PORT BASE ADDRESS
+ * @param[1}				- uint8_t PIN NUMBER
+ * @param[2]      			- uint8_t VALUE
+ *
+ * @return 					-
+ *
+ * @NOte					-
+ *
+ */
+void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber,
+		uint8_t value) {
+	if (pinNumber == GPIO_PIN_SET) {
+		//WRITE 1 AT THE ODR REGISTER AT THE BIT FIELD CORRESPONDING TO THE PINN NUMBER
+		pGPIOx->ODR |= (0b1 << pinNumber);
+	} else {
+		pGPIOx->ODR &= ~(1 << pinNumber);
+	}
 }
 
-uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx);
-void GPIO_WritwToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber,
-		uint8_t value);
-void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value);
+void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value){
+	pGPIOx->ODR &=
+}
 void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber);
 
 /*IRQ and ISR Handling*/

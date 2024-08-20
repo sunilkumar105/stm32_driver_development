@@ -83,7 +83,7 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx); //It just need the base address of the 
 /*Data Read and Write*/
 uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber);
 uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx);
-void GPIO_WritwToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber,
+void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber,
 		uint8_t value);
 void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value);
 void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber);
