@@ -40,35 +40,25 @@ void GPIO_PeriClockControl(GPIO_RegDef_t *pGPIOx, uint8_t ENorDI) {
 	if (ENorDI == ENABLE) {
 		if (pGPIOx == GPIOA) {
 			GPIOA_PCLK_EN();
-		}
-		if (pGPIOx == GPIOB) {
+		} else if (pGPIOx == GPIOB) {
 			GPIOB_PCLK_EN();
-		}
-		if (pGPIOx == GPIOC) {
+		} else if (pGPIOx == GPIOC) {
 			GPIOC_PCLK_EN();
-		}
-		if (pGPIOx == GPIOD) {
+		} else if (pGPIOx == GPIOD) {
 			GPIOD_PCLK_EN();
-		}
-		if (pGPIOx == GPIOE) {
+		} else if (pGPIOx == GPIOE) {
 			GPIOE_PCLK_EN();
-		}
-		if (pGPIOx == GPIOF) {
+		} else if (pGPIOx == GPIOF) {
 			GPIOF_PCLK_EN();
-		}
-		if (pGPIOx == GPIOG) {
+		} else if (pGPIOx == GPIOG) {
 			GPIOG_PCLK_EN();
-		}
-		if (pGPIOx == GPIOH) {
+		} else if (pGPIOx == GPIOH) {
 			GPIOH_PCLK_EN();
-		}
-		if (pGPIOx == GPIOI) {
+		} else if (pGPIOx == GPIOI) {
 			GPIOI_PCLK_EN();
-		}
-		if (pGPIOx == GPIOJ) {
+		} else if (pGPIOx == GPIOJ) {
 			GPIOJ_PCLK_EN();
-		}
-		if (pGPIOx == GPIOK) {
+		} else if (pGPIOx == GPIOK) {
 			GPIOK_PCLK_EN();
 		}
 	} else {
@@ -303,10 +293,12 @@ void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber,
 	}
 }
 
-void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value){
-	pGPIOx->ODR &=
+void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value) {
+	pGPIOx->ODR = value;
 }
-void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber);
+void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber) {
+	pGPIOx->ODR ^= (1 << pinNumber);
+}
 
 /*IRQ and ISR Handling*/
 void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPRIORITY, uint8_t ENorDI);
