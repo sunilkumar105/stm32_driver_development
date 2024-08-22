@@ -122,6 +122,7 @@ typedef struct {
 	__vo uint32_t AHB1RSTR;			    //RCC AHB1 peripheral reset register
 	__vo uint32_t AHB2RSTR; 			//RCC AHB2 peripheral reset register
 	__vo uint32_t AHB3RSTR;				//RCC AHB3 peripheral reset register
+	__vo uint32_t RESERVED0;
 	__vo uint32_t APB1RSTR;  			//RCC APB1 peripheral reset register
 	__vo uint32_t APB2RSTR; 			//RCC APB2 peripheral reset register
 	__vo uint32_t RESERVED1;
