@@ -285,11 +285,11 @@ uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx) {
  */
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber,
 		uint8_t value) {
-	if (pinNumber == GPIO_PIN_SET) {
+	if (value == GPIO_PIN_SET) {
 		//WRITE 1 AT THE ODR REGISTER AT THE BIT FIELD CORRESPONDING TO THE PINN NUMBER
 		pGPIOx->ODR |= (0b1 << pinNumber);
 	} else {
-		pGPIOx->ODR &= ~(1 << pinNumber);
+		pGPIOx->ODR &= ~(0b1 << pinNumber);
 	}
 }
 

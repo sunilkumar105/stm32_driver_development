@@ -24,13 +24,14 @@
 #endif
 
 void delay() {
-	for (uint64_t i = 0; i < 500000; i++)
+	for (uint64_t i = 0; i < 200000; i++)
 		;
 }
 
 int main(void) {
 
 	GPIO_PeriClockControl(GPIOB, ENABLE);
+	GPIO_PeriClockControl(GPIOC, ENABLE);
 
 	GPIO_Handle_t gpioLed;
 	gpioLed.pGPIOx = GPIOB;
@@ -38,12 +39,25 @@ int main(void) {
 	gpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
 	gpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
 	gpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
-	gpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
-
+	gpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_NO_PUPD;
 	GPIO_Init(&gpioLed);
 
+	GPIO_Handle_t gpioBtn;
+	gpioBtn.pGPIOx = GPIOC;
+	gpioBtn.GPIO_PinConfig.GPIO_Pinumber = GPIO_PIN_NO_13;
+	gpioBtn.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
+	gpioBtn.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
+	gpioBtn.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_NO_PUPD;
+	GPIO_Init(&gpioBtn);
+
 	while (1) {
-		GPIO_TogglePin(GPIOB, GPIO_PIN_NO_7);
+		uint8_t GPIO_STATUS = GPIO_ReadFromInputPin(GPIOC, GPIO_PIN_NO_13);
+
+		if (GPIO_STATUS) {
+			GPIO_WriteToOutputPin(GPIOB, GPIO_PIN_NO_7, 1);
+		} else {
+			GPIO_WriteToOutputPin(GPIOB, GPIO_PIN_NO_7, 0);
+		}
 		delay();
 	}
 }
