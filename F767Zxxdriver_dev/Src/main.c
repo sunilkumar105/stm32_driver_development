@@ -24,7 +24,7 @@
 #endif
 
 void delay() {
-	for (uint64_t i = 0; i < 200000; i++)
+	for (uint64_t i = 0; i < 500000 / 2; i++)
 		;
 }
 
@@ -54,9 +54,11 @@ int main(void) {
 		uint8_t GPIO_STATUS = GPIO_ReadFromInputPin(GPIOC, GPIO_PIN_NO_13);
 
 		if (GPIO_STATUS) {
-			GPIO_WriteToOutputPin(GPIOB, GPIO_PIN_NO_7, 1);
+//			GPIO_WriteToOutputPin(GPIOB, GPIO_PIN_NO_7, 1);
+			GPIO_TogglePin(GPIOB, GPIO_PIN_NO_7);
+			delay();
 		} else {
-			GPIO_WriteToOutputPin(GPIOB, GPIO_PIN_NO_7, 0);
+//			GPIO_WriteToOutputPin(GPIOB, GPIO_PIN_NO_7, 0);
 		}
 		delay();
 	}

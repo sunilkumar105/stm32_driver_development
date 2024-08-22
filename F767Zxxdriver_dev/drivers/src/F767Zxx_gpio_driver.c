@@ -128,7 +128,37 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle) {
 		//writing reg
 		pGPIOHandle->pGPIOx->MODER |= temp;
 	} else {
-		//Means the mode is interrupt, will code it later
+
+		if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_IT_FT) { //Mode is interrupt for falling edge
+			// 1. Configure the FTSR (Falling edge trigger selection register)
+			EXTI->FTSR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+			//If we only want Falling edge trigger, then we will have to make sure that the RTSR for rising edge is disabled
+			// it may be on because of previous configuration or for something else reason, so we will have to Clear it
+			EXTI->RTSR &= ~(1 << pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+		}
+		if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_IT_RT) { //Mode is interrupt for rising edge
+			// 1. Configure the RTSR (Rising edge trigger selection register)
+			EXTI->RTSR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+			//clear the corresponding FTSR
+			EXTI->FTSR &= ~(1 << pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+		}
+		if (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_IT_RFT) { //Mode is interrupt for falling edge
+			// 1. Configure both FTSR (Falling edge trigger selection register) and RTSR (Rising edge trigger selection register)
+			EXTI->RTSR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+			EXTI->FTSR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
+		}
+
+		//2. Configure the GPIO port selection in SYSCFG_EXTICR
+		uint8_t temp1 = pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber / 4;
+		uint8_t temp2 = pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber % 4;
+		uint8_t portcode = GPIO_BASEADDR_TO_CODE(pGPIOHandle->pGPIOx);
+
+		SYSCFG_PCLK_EN();
+
+		SYSCFG->EXTICR[temp1] = portcode << (temp2 * 4);
+
+		//3. Enable the exti interrupt delivery using IMR (Interrupt Mask Register)
+		EXTI->IMR |= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_Pinumber);
 	}
 
 	temp = 0;
@@ -292,14 +322,42 @@ void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber,
 		pGPIOx->ODR &= ~(0b1 << pinNumber);
 	}
 }
-
+/**********************************************
+ * @fn       				- GPIO_WriteToOutputPort
+ *
+ * @brief      				- WRITE TO A SPECIFIC GPIO PORT
+ * @param[0]  				- GPIO_RegDef_t*GPIO PORT BASE ADDRESS
+ * @param[1}				- uint8_t VALUE
+ * @param[2]      			-
+ *
+ * @return 					-
+ *
+ * @NOte					-
+ *
+ */
 void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value) {
 	pGPIOx->ODR = value;
 }
+/**********************************************
+ * @fn       				- GPIO_TogglePin
+ *
+ * @brief      				- TOGGLE THE PIN
+ * @param[0]  				- GPIO_RegDef_t*GPIO PORT BASE ADDRESS
+ * @param[1}				- uint8_t pinNumber
+ * @param[2]      			-
+ *
+ * @return 					-
+ *
+ * @NOte					-
+ *
+ */
 void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber) {
 	pGPIOx->ODR ^= (1 << pinNumber);
 }
 
-/*IRQ and ISR Handling*/
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPRIORITY, uint8_t ENorDI);
+/*************************IRQ and ISR Handling***********************************/
+void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPRIORITY, uint8_t ENorDI) {
+
+}
+
 void GPIO_IRQHandling(uint8_t pinNumber);

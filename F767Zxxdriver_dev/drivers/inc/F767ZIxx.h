@@ -155,7 +155,28 @@ typedef struct {
 
 } RCC_RegDef_t;
 
+//EXTI peripheral structures
+typedef struct {
+	__vo uint32_t IMR; // Interrupt Mask Register: Enables/disables interrupts for each EXTI line
+	__vo uint32_t EMR; // Event Mask Register: Enables/disables events for each EXTI line
+	__vo uint32_t RTSR; // Rising Trigger Selection Register: Enables rising edge trigger for each EXTI line
+	__vo uint32_t FTSR; // Falling Trigger Selection Register: Enables falling edge trigger for each EXTI line
+	__vo uint32_t SWIER; // Software Interrupt Event Register: Generates interrupts/events by software
+	__vo uint32_t PR; // Pending Register: Indicates which EXTI lines have pending interrupts/events
+} EXTI_RegDef_t;
+
+//SYSCFG PERIPHERAL STRUCTURE
+typedef struct {
+	__vo uint32_t MEMRMP;    // Memory remap register
+	__vo uint32_t PMC;       // Peripheral mode configuration register
+	__vo uint32_t EXTICR[4]; // EXTI CONTROL REGISTERS
+	__vo uint32_t CBR;       // Class B register
+	__vo uint32_t CMPCR;     // Compensation cell control register
+} SYSCFG_RegDef_t;
+
 #define RCC   ((RCC_RegDef_t*)RCC_BASEADDR)
+#define EXTI  ((EXTI_RegDef_t*)EXTI_BASEADDR)
+#define SYSCFG  ((SYSCFG_RegDef_t*)SYSCFG_BASEADDR)
 
 /*Clock Enable MACRO*/
 
@@ -255,6 +276,32 @@ typedef struct {
 #define GPIOI_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 8)); (RCC->AHB1RSTR &= ~(1 << 8));} while(0)
 #define GPIOJ_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 9)); (RCC->AHB1RSTR &= ~(1 << 9));} while(0)
 #define GPIOK_REG_RESET()   do {(RCC->AHB1RSTR |= (1 << 10)); (RCC->AHB1RSTR &= ~(1 << 10));} while(0)
+
+/*
+ * Return port code for given gpio base address
+ * */
+#define GPIO_BASEADDR_TO_CODE(x) 	((x == GPIOA)?0:\
+									 (x == GPIOB)?1:\
+									 (x == GPIOC)?2:\
+									 (x == GPIOD)?3:\
+									 (x == GPIOE)?4:\
+									 (x == GPIOF)?5:\
+									 (x == GPIOG)?6:\
+									 (x == GPIOH)?7:\
+									 (x == GPIOI)?8:\
+									 (x == GPIOJ)?9:0)
+
+/* INTERRUPT REQUEST NUMBER OF THIS NUMBER
+ *
+ * */
+
+#define IRQ_NUMBER_EXTI0 6
+#define IRQ_NUMBER_EXTI1 7
+#define IRQ_NUMBER_EXTI2 8
+#define IRQ_NUMBER_EXTI3 9
+#define IRQ_NUMBER_EXTI4 10
+#define IRQ_NUMBER_EXTI9_5 23
+#define IRQ_NUMBER_EXTI15_10 40
 
 //Some Generic Macro
 #define ENABLE 1
