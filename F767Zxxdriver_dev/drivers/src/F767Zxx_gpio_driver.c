@@ -356,6 +356,19 @@ void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber) {
 }
 
 /*************************IRQ and ISR Handling***********************************/
+/**********************************************
+ * @fn       				- GPIO_IRQConfig
+ *
+ * @brief      				- Enable or disable specific IRQ number & Its priority
+ * @param[0]  				- uint8_t IRQNumber
+ * @param[1}				- uint8_t IRQPRIORITY
+ * @param[2]      			- uint8_t ENorDI
+ *
+ * @return 					-
+ *
+ * @NOte					-
+ *
+ */
 void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPRIORITY, uint8_t ENorDI) {
 
 }
