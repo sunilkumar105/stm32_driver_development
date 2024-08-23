@@ -69,8 +69,6 @@ typedef struct {
 	GPIO_PinConfig_t GPIO_PinConfig;
 } GPIO_Handle_t;
 
-
-
 /************************* API SUPPORTED BY THE DRIVER ****************************/
 /*Peripheral Clock control*/
 // will be used to enable or disable clock for the specific port of the given GPIO
@@ -89,7 +87,8 @@ void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t value);
 void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber);
 
 /*IRQ and ISR Handling*/
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPRIORITY, uint8_t ENorDI);
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t ENorDI);
+void GPIO_IRQPrioirityConfig(uint8_t IRQNumber,uint8_t IRQpriority);
 void GPIO_IRQHandling(uint8_t pinNumber);
 
 #endif /* INC_F767ZXX_GPIO_DRIVER_H_ */

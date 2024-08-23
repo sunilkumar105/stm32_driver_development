@@ -361,16 +361,70 @@ void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber) {
  *
  * @brief      				- Enable or disable specific IRQ number & Its priority
  * @param[0]  				- uint8_t IRQNumber
- * @param[1}				- uint8_t IRQPRIORITY
- * @param[2]      			- uint8_t ENorDI
+ * @param[1}				- uint8_t ENorDI
+ * @param[2]      			-
  *
  * @return 					-
  *
  * @NOte					-
  *
  */
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPRIORITY, uint8_t ENorDI) {
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t ENorDI) {
 
+	if (ENorDI == ENABLE) {
+
+		if (IRQNumber <= 31) {
+			//PROGRAM ISER0
+			//NVIC_ISER0 IS A POINTER, SO DEREFERANCE IT AND PUT THE VALUE
+			*NVIC_ISER0 |= (1 << IRQNumber);
+		} else if (IRQNumber > 31 && IRQNumber < 64) {
+			//PROGRAM ISER1
+			*NVIC_ISER1 |= (1 << IRQNumber % 32);
+		} else if (IRQNumber > 65 && IRQNumber < 96) {
+			//PROGRAM ISER2
+			*NVIC_ISER2 |= (1 << IRQNumber % 64);
+		} else if (IRQNumber > 97 && IRQNumber < 128) {
+			//PROGRAM ISER3
+			*NVIC_ISER3 |= (1 << IRQNumber % 96);
+		}
+	} else {
+		if (IRQNumber <= 31) {
+			//PROGRAM ICER0
+			*NVIC_ICER0 |= (1 << IRQNumber);
+		} else if (IRQNumber > 31 && IRQNumber < 64) {
+			//PROGRAM ICER1
+			*NVIC_ICER1 |= (1 << IRQNumber % 32);
+		} else if (IRQNumber > 65 && IRQNumber < 96) {
+			//PROGRAM ICER2
+			*NVIC_ICER2 |= (1 << IRQNumber % 64);
+		} else if (IRQNumber > 97 && IRQNumber < 128) {
+			//PROGRAM ICER3
+			*NVIC_ICER3 |= (1 << IRQNumber % 96);
+		}
+	}
+
+}
+/**********************************************
+ * @fn       				- GPIO_IRQPrioirityConfig
+ *
+ * @brief      				- Set the priority for the specific irq number
+ * @param[0]  				- uint8_t IRQPRIORITY
+ * @param[1}				-
+ * @param[2]      			-
+ *
+ * @return 					-
+ *
+ * @NOte					-
+ *
+ */
+void GPIO_IRQPrioirityConfig(uint8_t IRQNumber, uint8_t IRQpriority) {
+
+	//1. Find out the IPR register getting used
+	uint8_t iprx = IRQNumber / 4;
+	uint8_t iprx_Section = IRQNumber % 4;
+	UINT8_T shiftAmount = (8 * iprx_Section)
+			+ (8 - NO_OF_PRIORITY_BITS_IMPLEMNETED);
+	*(NVIC_PR_BASE_ADDR + (iprx * 4)) |= (IRQpriority << shiftAmount);
 }
 
 void GPIO_IRQHandling(uint8_t pinNumber);

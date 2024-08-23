@@ -13,6 +13,25 @@
 
 #define __vo volatile
 
+/******************************* PROCESSOR SPECIFIC DETAILS **************************************/
+
+//ISER REGISTER for ARM-CORTEX M7 processor
+#define NVIC_ISER0  ((__vo uint32_t*) 0xE00E100)
+#define NVIC_ISER1  ((__vo uint32_t*) 0xE00E104)
+#define NVIC_ISER2  ((__vo uint32_t*) 0xE00E108)
+#define NVIC_ISER3  ((__vo uint32_t*) 0xE00E10C)
+
+//ICER REGISTER for ARM-CORTEX M7 processor
+#define NVIC_ICER0  ((__vo uint32_t*) 0XE000E180)
+#define NVIC_ICER1  ((__vo uint32_t*) 0XE000E184)
+#define NVIC_ICER2  ((__vo uint32_t*) 0XE000E188)
+#define NVIC_ICER3  ((__vo uint32_t*) 0XE000E18C)
+
+#define NVIC_PR_BASE_ADDR  ((__vo uint32_t*) 0XE000E400)
+#define NO_OF_PRIORITY_BITS_IMPLEMNETED 4
+
+/************************************************************************************************/
+
 //All Memory Address
 #define FLASH_BASEADDR   				0x08000000U //Here U is used at the end to denote that the address is unsigned number as by default compiler assumes it as the signed number
 #define SRAM1_BASEADDR					0x20020000U
