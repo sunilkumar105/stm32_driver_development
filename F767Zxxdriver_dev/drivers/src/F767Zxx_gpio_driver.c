@@ -422,9 +422,19 @@ void GPIO_IRQPrioirityConfig(uint8_t IRQNumber, uint8_t IRQpriority) {
 	//1. Find out the IPR register getting used
 	uint8_t iprx = IRQNumber / 4;
 	uint8_t iprx_Section = IRQNumber % 4;
-	UINT8_T shiftAmount = (8 * iprx_Section)
+	uint8_t shiftAmount = (8 * iprx_Section)
 			+ (8 - NO_OF_PRIORITY_BITS_IMPLEMNETED);
 	*(NVIC_PR_BASE_ADDR + (iprx * 4)) |= (IRQpriority << shiftAmount);
 }
 
-void GPIO_IRQHandling(uint8_t pinNumber);
+void GPIO_IRQHandling(uint8_t pinNumber) {
+
+	//Clear the pending register, corresponding to the pin number
+	//check if it is set.
+	if (EXTI->PR & (1 << pinNumber)) {
+
+		//CLEAR THE PR REGISTER
+		EXTI->PR |= (1 << pinNumber);
+	}
+
+}

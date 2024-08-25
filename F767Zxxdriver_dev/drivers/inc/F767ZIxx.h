@@ -16,10 +16,10 @@
 /******************************* PROCESSOR SPECIFIC DETAILS **************************************/
 
 //ISER REGISTER for ARM-CORTEX M7 processor
-#define NVIC_ISER0  ((__vo uint32_t*) 0xE00E100)
-#define NVIC_ISER1  ((__vo uint32_t*) 0xE00E104)
-#define NVIC_ISER2  ((__vo uint32_t*) 0xE00E108)
-#define NVIC_ISER3  ((__vo uint32_t*) 0xE00E10C)
+#define NVIC_ISER0  ((__vo uint32_t*) 0xE000E100)
+#define NVIC_ISER1  ((__vo uint32_t*) 0xE000E104)
+#define NVIC_ISER2  ((__vo uint32_t*) 0xE000E108)
+#define NVIC_ISER3  ((__vo uint32_t*) 0xE000E10C)
 
 //ICER REGISTER for ARM-CORTEX M7 processor
 #define NVIC_ICER0  ((__vo uint32_t*) 0XE000E180)

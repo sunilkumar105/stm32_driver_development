@@ -45,21 +45,37 @@ int main(void) {
 	GPIO_Handle_t gpioBtn;
 	gpioBtn.pGPIOx = GPIOC;
 	gpioBtn.GPIO_PinConfig.GPIO_Pinumber = GPIO_PIN_NO_13;
-	gpioBtn.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IN;
+	gpioBtn.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IT_RT;
 	gpioBtn.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
 	gpioBtn.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_PIN_NO_PUPD;
 	GPIO_Init(&gpioBtn);
 
-	while (1) {
-		uint8_t GPIO_STATUS = GPIO_ReadFromInputPin(GPIOC, GPIO_PIN_NO_13);
+	//Enable IRQ for the pin
+	GPIO_IRQInterruptConfig(IRQ_NUMBER_EXTI15_10, ENABLE);
 
-		if (GPIO_STATUS) {
-//			GPIO_WriteToOutputPin(GPIOB, GPIO_PIN_NO_7, 1);
-			GPIO_TogglePin(GPIOB, GPIO_PIN_NO_7);
-			delay();
-		} else {
-//			GPIO_WriteToOutputPin(GPIOB, GPIO_PIN_NO_7, 0);
-		}
-		delay();
+	while (1) {
+		/*uint8_t GPIO_STATUS = GPIO_ReadFromInputPin(GPIOC, GPIO_PIN_NO_13);
+
+		 if (GPIO_STATUS) {
+		 //			GPIO_WriteToOutputPin(GPIOB, GPIO_PIN_NO_7, 1);
+		 GPIO_TogglePin(GPIOB, GPIO_PIN_NO_7);
+		 delay();
+		 } else {
+		 //			GPIO_WriteToOutputPin(GPIOB, GPIO_PIN_NO_7, 0);
+		 }
+		 delay();*/
 	}
+}
+
+void EXTI0_IRQHandler(void) {
+//Handle the EXTI0 IRQ
+
+	GPIO_IRQHandling(0);
+}
+
+void EXTI15_10_IRQHandler(void) {
+	//Handle the EXTI0 IRQ
+
+	GPIO_IRQHandling(GPIO_PIN_NO_13);
+	GPIO_TogglePin(GPIOB, GPIO_PIN_NO_7);
 }
