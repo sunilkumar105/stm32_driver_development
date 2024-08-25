@@ -424,7 +424,7 @@ void GPIO_IRQPrioirityConfig(uint8_t IRQNumber, uint8_t IRQpriority) {
 	uint8_t iprx_Section = IRQNumber % 4;
 	uint8_t shiftAmount = (8 * iprx_Section)
 			+ (8 - NO_OF_PRIORITY_BITS_IMPLEMNETED);
-	*(NVIC_PR_BASE_ADDR + (iprx * 4)) |= (IRQpriority << shiftAmount);
+	*(NVIC_PR_BASE_ADDR + (iprx)) |= (IRQpriority << shiftAmount); //ghapla
 }
 
 void GPIO_IRQHandling(uint8_t pinNumber) {
