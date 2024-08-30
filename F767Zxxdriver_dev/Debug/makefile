@@ -60,8 +60,8 @@ all: main-build
 main-build: F767Zxxdriver_dev.elf secondary-outputs
 
 # Tool invocations
-F767Zxxdriver_dev.elf F767Zxxdriver_dev.map: $(OBJS) $(USER_OBJS) C:\Users\sunil\OneDrive\Desktop\stm32_driver_development\F767Zxxdriver_dev\STM32F767ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "F767Zxxdriver_dev.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\sunil\OneDrive\Desktop\stm32_driver_development\F767Zxxdriver_dev\STM32F767ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="F767Zxxdriver_dev.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+F767Zxxdriver_dev.elf F767Zxxdriver_dev.map: $(OBJS) $(USER_OBJS) C:\Users\WB07_24\Desktop\stm32_driver_development\F767Zxxdriver_dev\STM32F767ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "F767Zxxdriver_dev.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\WB07_24\Desktop\stm32_driver_development\F767Zxxdriver_dev\STM32F767ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="F767Zxxdriver_dev.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

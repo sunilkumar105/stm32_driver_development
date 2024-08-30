@@ -22,6 +22,7 @@
 #include "F767Zxx_gpio_driver.h"
 
 /************************* API SUPPORTED BY THE DRIVER ****************************/
+
 /*Peripheral Clock control*/
 // will be used to enable or disable clock for the specific port of the given GPIO
 /**********************************************

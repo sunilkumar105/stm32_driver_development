@@ -75,7 +75,7 @@ void EXTI0_IRQHandler(void) {
 
 void EXTI15_10_IRQHandler(void) {
 	//Handle the EXTI0 IRQ
+	GPIO_TogglePin(GPIOB, GPIO_PIN_NO_7);
 	delay();
 	GPIO_IRQHandling(GPIO_PIN_NO_13);
-	GPIO_TogglePin(GPIOB, GPIO_PIN_NO_7);
 }

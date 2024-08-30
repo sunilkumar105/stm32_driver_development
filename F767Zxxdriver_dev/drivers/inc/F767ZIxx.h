@@ -107,21 +107,21 @@
 //FOR GPIO REGISTERS
 typedef struct {
 
-	__vo uint32_t MODER; 				 	 //GPIO port mode register
-	__vo uint32_t OTYPER; 					 //GPIO port output type register
-	__vo uint32_t OSPEEDR;				     //GPIO port output speed register
-	__vo uint32_t PUPDR;				//GPIO port pull-up/pull-down register
-	__vo uint32_t IDR;						 //GPIO port input data register
-	__vo uint32_t ODR;						 //GPIO port output data register
-	__vo uint32_t BSRR;						 //GPIO port bit set/reset register
-	__vo uint32_t LCKR; 				// GPIO port configuration lock register
+	__vo uint32_t MODER; //GPIO port mode register -> INPUT / OUTPUT / ALTERNATE_FUNCTION
+	__vo uint32_t OTYPER; //GPIO port output type register -> PUSH_PULL / OPEN_DRAIN
+	__vo uint32_t OSPEEDR;//GPIO port output speed register -> LOW, Medium , fast, high
+	__vo uint32_t PUPDR;//GPIO port pull-up/pull-down register -> no pull up pull down / pull up / pull down
+	__vo uint32_t IDR;	//GPIO port input data register -> fir reading inpput
+	__vo uint32_t ODR;	//GPIO port output data register -> for reading output
+	__vo uint32_t BSRR;	//GPIO port bit set/reset register -> directly write to ODR register to set or reset a GPIO, will update ODR too
+	__vo uint32_t LCKR; // GPIO port configuration lock register -> used to lock the configuration of the specific GPIO pins, once locked, will have to reset MCU to reset the lock, after writing 1 to the bit field, a specific sequence of bit operation is done with 16th pin of LOCK register.
 	__vo uint32_t AFR[2]; // AFR[0] : GPIO alternate function low register , AFR[1] : GPIO alternate function high register
-
+//Each GPIO HAS 4 BIT TO BE CONFIGURED AS ALTERNATE FUNCTION, total combination of 16, and each AF represents a specific AF like AF0 for GPIO, AF1 for UART and so on.
 } GPIO_RegDef_t;
 
 //Peripheral definition (peripheral base address type-casted to xxxRegDef_t)
 #define GPIOA (GPIO_RegDef_t*)GPIOA_BASEADDR
-#define GPIOB (GPIO_RegDef_t*)GPIOB_BASEADDR
+#define GPIOB ((GPIO_RegDef_t*)GPIOB_BASEADDR)
 #define GPIOC (GPIO_RegDef_t*)GPIOC_BASEADDR
 #define GPIOD (GPIO_RegDef_t*)GPIOD_BASEADDR
 #define GPIOE (GPIO_RegDef_t*)GPIOE_BASEADDR

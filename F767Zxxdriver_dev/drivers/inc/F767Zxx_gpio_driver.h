@@ -88,7 +88,7 @@ void GPIO_TogglePin(GPIO_RegDef_t *pGPIOx, uint8_t pinNumber);
 
 /*IRQ and ISR Handling*/
 void GPIO_IRQInterruptConfig(uint8_t IRQNumber, uint8_t ENorDI);
-void GPIO_IRQPrioirityConfig(uint8_t IRQNumber,uint8_t IRQpriority);
+void GPIO_IRQPrioirityConfig(uint8_t IRQNumber, uint8_t IRQpriority);
 void GPIO_IRQHandling(uint8_t pinNumber);
 
 #endif /* INC_F767ZXX_GPIO_DRIVER_H_ */
